@@ -253,7 +253,7 @@ textarea::placeholder{color:#A9ADB4}
 
 /* mobile summary bar */
 .mbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:none;align-items:center;gap:12px;padding:9px 14px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(8px)}
-.mbar.on{display:flex}
+@media (max-width:1000px){.mbar.on{display:flex}}
 .mbar .m-score{display:flex;align-items:baseline;gap:4px}
 .mbar .m-score b{font-size:22px;font-weight:800;letter-spacing:-0.04em;line-height:1;font-variant-numeric:tabular-nums}
 .mbar .m-score span{font-size:11px;color:var(--ink-3)}
