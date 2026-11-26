@@ -488,7 +488,7 @@
     else g = { cls: 'g-red', label: '발행 보류', desc: '교정본을 먼저 적용하고 다시 검사하세요.' };
     // 점수가 높아도 되돌리기 어려운 붉은 항목이 남아 있으면 먼저 고지합니다.
     if (badCount > 0 && g.cls === 'g-green') {
-      return { cls: 'g-amber', label: '붉은 항목 먼저', desc: '점수는 충분하지만 되돌리기 어려운 항목이 ' + badCount + '개 남아 있습니다. 빨간 항목부터 고치세요.' };
+      return { cls: 'g-amber', label: '붉은 항목 먼저', desc: '점수와 별개로, 되돌리기 어려운 붉은 항목이 ' + badCount + '개 남아 있습니다. 빨간 항목부터 고치세요.' };
     }
     return g;
   }
