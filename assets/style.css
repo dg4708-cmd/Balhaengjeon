@@ -270,7 +270,11 @@ textarea::placeholder{color:#A9ADB4}
 .prose ul,.prose ol{padding-left:20px;margin:0 0 14px}
 .prose li{font-size:14.5px;color:var(--ink-2);line-height:1.75;margin-bottom:4px}
 .prose table{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:13px}
-.prose th,.prose td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top;line-height:1.6}
+.prose th,.prose td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top;line-height:1.6;word-break:keep-all}
+@media (max-width:640px){
+  .prose table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:12.5px}
+  .prose th,.prose td{padding:8px 10px;white-space:normal}
+}
 .prose th{font-weight:700;color:var(--ink);background:var(--surface-2)}
 .prose code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:#EFEDE7;padding:1px 5px;border-radius:4px}
 .prose .note{border-left:3px solid var(--emerald);background:var(--emerald-050);border-radius:0 10px 10px 0;padding:12px 14px;font-size:13.5px;color:#2C4A3D;line-height:1.7;margin:16px 0}
