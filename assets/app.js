@@ -480,18 +480,25 @@
     $('#cSent').textContent = won(parsed.sentences.length);
   }
 
-  function gradeOf(total) {
-    if (total >= 85) return { cls: 'g-green', label: '발행 가능', desc: '지금 눌러도 됩니다. 아래 개선 항목만 확인하세요.' };
-    if (total >= 70) return { cls: 'g-green', label: '조금만 다듬기', desc: '발행해도 되지만, 붉은 항목 2~3개만 고치면 훨씬 좋아집니다.' };
-    if (total >= 55) return { cls: 'g-amber', label: '수정 필요', desc: '이대로 올리면 노출과 신뢰를 잃기 쉽습니다.' };
-    return { cls: 'g-red', label: '발행 보류', desc: '교정본을 먼저 적용하고 다시 검사하세요.' };
+  function gradeOf(total, badCount) {
+    var g;
+    if (total >= 85) g = { cls: 'g-green', label: '발행 가능', desc: '지금 눌러도 됩니다. 아래 개선 항목만 확인하세요.' };
+    else if (total >= 70) g = { cls: 'g-green', label: '조금만 다듬기', desc: '발행해도 되지만, 붉은 항목 2~3개만 고치면 훨씬 좋아집니다.' };
+    else if (total >= 55) g = { cls: 'g-amber', label: '수정 필요', desc: '이대로 올리면 노출과 신뢰를 잃기 쉽습니다.' };
+    else g = { cls: 'g-red', label: '발행 보류', desc: '교정본을 먼저 적용하고 다시 검사하세요.' };
+    // 점수가 높아도 되돌리기 어려운 붉은 항목이 남아 있으면 먼저 고지합니다.
+    if (badCount > 0 && g.cls === 'g-green') {
+      return { cls: 'g-amber', label: '붉은 항목 먼저', desc: '점수는 충분하지만 되돌리기 어려운 항목이 ' + badCount + '개 남아 있습니다. 빨간 항목부터 고치세요.' };
+    }
+    return g;
   }
 
   function barClass(v) { return v >= 75 ? '' : v >= 55 ? 'mid' : 'low'; }
 
   function render(r, prevTotal) {
     state.last = r;
-    var g = gradeOf(r.total);
+    var badCount0 = r.findings.filter(function (f) { return f.level === 'bad'; }).length;
+    var g = gradeOf(r.total, badCount0);
 
     $('#resultEmpty').hidden = true;
     $('#resultBody').hidden = false;
@@ -761,7 +768,7 @@
   }
 
   function summaryText(r) {
-    var g = gradeOf(r.total);
+    var g = gradeOf(r.total, r.findings.filter(function (f) { return f.level === 'bad'; }).length);
     return '[발행전] ' + (r.title || '(제목 없음)') + '\n' +
       '종합 ' + r.total + '점 · ' + g.label + '\n' +
       '검색 구조 ' + r.scores.seo + ' / 저품질 위험 ' + r.scores.spam + ' / AI 티 ' + r.scores.ai + ' / 가독성 ' + r.scores.read + '\n' +
